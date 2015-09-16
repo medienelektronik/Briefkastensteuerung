@@ -22,6 +22,11 @@ const int END = PF_2;
 const int SA = PD_2;
 const int SZ = PD_3;
 
+//maxima
+const int KM = 2000
+const int WM = 2000
+const int WL = 5000
+
 void setup() {
 	Serial.begin(9600);
 	//IO?
@@ -92,7 +97,7 @@ int sensor_walze() {
 		ret = ret + analogRead(WS);
 		delay(10);
     }
-	return (ret/10);
+	return (ret/10) < WM;
 }
 
 int sensor_klappe() {
@@ -101,7 +106,7 @@ int sensor_klappe() {
 		ret = ret + analogRead(KS);
 		delay(10);
     }
-	return (ret/10);
+	return (ret/10) < KM;
 }
 
 int schalter_auf() {
@@ -119,8 +124,12 @@ void kill_all() {
 
 void loop() {
 	klappe_auf();
-	
-	//bis endschalter
+	while(!schalter_auf() && sensor_klappe()){
+		//nix tun bis endschalter oder zu heftig klappe
+	}
+	klappe_stop();
+	walze_vor();
+	long walze_start = millis();
 	//dann klappe stop
 	//walze an
 }
