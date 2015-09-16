@@ -54,8 +54,7 @@ unsigned long t_soll       = 0;
 
 void setup() 
 {
-  
-// Definieren der Hardwarepins als Ein- oder Ausgang
+  // Definieren der Hardwarepins als Ein- oder Ausgang
   pinMode(Walze_Vor,     OUTPUT);
   pinMode(Walze_Sens,    INPUT);
   pinMode(Walze_Back,    OUTPUT);
@@ -71,19 +70,19 @@ void setup()
   pinMode(LS2, INPUT);
   pinMode(LS21, INPUT);
 
-// Definieren der Hardwarepins mit Pullup-Widerstand
+  // Definieren der Hardwarepins mit Pullup-Widerstand
   pinMode(Schalter_auf,    INPUT_PULLUP);
   pinMode(Schalter_zu,     INPUT_PULLUP);
 
-// Definiieren des Aussignalschalterpins  
+  // Definiieren des Aussignalschalterpins  
   pinMode(Aus_sig, OUTPUT); 
  
-// Definieren der LED Status LED's
+  // Definieren der LED Status LED's
   pinMode(LED_green, OUTPUT);
   pinMode(LED_red,   OUTPUT);
-//  pinMode(LED_blue,  OUTPUT);
+  //  pinMode(LED_blue,  OUTPUT);
     
-// Definieren der Anfangszustände der verwendeten HArdwarepins, alle auf LOW 
+  // Definieren der Anfangszustände der verwendeten HArdwarepins, alle auf LOW 
   digitalWrite(Walze_Vor,    LOW);
   digitalWrite(Walze_Back,   LOW);
   digitalWrite(Walze_Enable, LOW);
@@ -93,123 +92,148 @@ void setup()
   digitalWrite(Aus_sig,       LOW);
   digitalWrite(LED_green,       LOW);
   digitalWrite(LED_red,       LOW);
-//  digitalWrite(Aus_sig,       LOW);
+  //  digitalWrite(Aus_sig,       LOW);
   
-
+  Serial.begin(9600);
 }
 
 void loop() 
 {  
+  //Klappe öffnen
    
-//Klappe öffnen
-//________________________________________________
-   
-   open_again: //Sprungmarke, zum wieder öffnen.
-   digitalWrite(Aus_sig, LOW); // Abschaltsignal ausschalten
-   // Signal geben um aufzufahren.
-   digitalWrite(Klappe_Back, LOW);
-   digitalWrite(Klappe_Vor, HIGH);
+  open_again: //Sprungmarke, zum wieder öffnen.
+  Serial.println("Start Sequenz");
+  digitalWrite(Aus_sig, LOW); // Abschaltsignal ausschalten
+  // Signal geben um aufzufahren.
+  digitalWrite(Klappe_Back, LOW);
+  digitalWrite(Klappe_Vor, HIGH);
 
-//Beim Auffahren der Klappe leuchtet StatusLED GRÜN
-   digitalWrite(LED_green, HIGH);
-   digitalWrite(LED_red, LOW);
-   
-     while(digitalRead(Schalter_auf) == LOW){     
-       digitalWrite(Klappe_Vor, HIGH);
-       digitalWrite(Klappe_Enable, HIGH);            
- }
-     // Abschalten der Signale für die Klappe
-     digitalWrite(Klappe_Vor, LOW);
-     digitalWrite(Klappe_Enable, LOW);
+  //Beim Auffahren der Klappe leuchtet StatusLED GRÜN
 
-   digitalWrite(LED_green, LOW);
-   digitalWrite(LED_red, LOW);
+  Serial.println("oeffne Klappe (Gruen)");
+  digitalWrite(LED_green, HIGH);
+  digitalWrite(LED_red, LOW);
    
-//________________________________________________
-
-
-//Walze_einziehen
-//________________________________________________
-t_start   = millis();
-t_aktuell = millis();
- while(t_aktuell < (t_start+t_soll_Walze) || digitalRead(LS1) == LOW || digitalRead(LS2) == LOW || digitalRead(LS11) == LOW || digitalRead(LS21) == LOW )
- {  
- //STaus LED leuchtet ROT wenn Walze einfährt
-   digitalWrite(LED_green, LOW);
-   digitalWrite(LED_red, HIGH);
- 
+  while(digitalRead(Schalter_auf) == LOW){     
+    digitalWrite(Klappe_Vor, HIGH);
+    digitalWrite(Klappe_Enable, HIGH);            
+  }
    
-  digitalWrite(Walze_Vor, HIGH);
-  digitalWrite(Walze_Enable, HIGH);
+  Serial.println("Klappe offen");
+  // Abschalten der Signale für die Klappe (!Gruen)
+  digitalWrite(Klappe_Vor, LOW);
+  digitalWrite(Klappe_Enable, LOW);
+   
+  digitalWrite(LED_green, LOW);
+  digitalWrite(LED_red, LOW);
+  
+
+  //Walze_einziehen
+  t_start   = millis();
   t_aktuell = millis();
+
+  Serial.println("Walze einziehen (Rot)");
+  while(t_aktuell < (t_start+t_soll_Walze) || digitalRead(LS1) == LOW || digitalRead(LS2) == LOW || digitalRead(LS11) == LOW || digitalRead(LS21) == LOW )
+  {  
+    //STaus LED leuchtet ROT wenn Walze einfährt
+    digitalWrite(LED_green, LOW);
+    digitalWrite(LED_red, HIGH);
+ 
+    digitalWrite(Walze_Vor, HIGH);
+    digitalWrite(Walze_Enable, HIGH);
+    t_aktuell = millis();
        
-// Mittelwert von 10 Messwerten aufnehmen in 100ms prüfen, ob Packet zu dick ist.
-      for (int x = 0; x <10 ;x++) {
+    // Mittelwert von 10 Messwerten aufnehmen in 100ms prüfen, ob Packet zu dick ist.
+    for (int x = 0; x <10 ;x++) {
       W_Sense_value = analogRead(Walze_Sens);
       W_Sense_mean = W_Sense_mean + W_Sense_value;
       delay(10);
-      }
-      W_Sense_mean = W_Sense_mean /10;
+    }
+    W_Sense_mean = W_Sense_mean /10;
+    Serial.print(W_Sense_mean);
+    Serial.print(" ");
   
-
-//   Wenn packet zu dick, dass Motor blockiert zurückfahren für 2sec!!!
-  if (W_Sense_mean >= W_Sense_max)
-  {
-    digitalWrite(Walze_Enable, HIGH);
-    digitalWrite(Walze_Vor, LOW);
-    digitalWrite(Walze_Back, HIGH);
-    delay(2000); //Zeit des Zurückfahrens definieren
-    digitalWrite(Walze_Back, LOW);
-  } 
- }
+    //   Wenn packet zu dick, dass Motor blockiert zurückfahren für 2sec!!!
+    if (W_Sense_mean >= W_Sense_max)
+    {
+      Serial.println("Walze zurueck");
+      digitalWrite(Walze_Enable, HIGH);
+      digitalWrite(Walze_Vor, LOW);
+      digitalWrite(Walze_Back, HIGH);
+      delay(200); //Zeit des Zurückfahrens definieren
+      digitalWrite(LED_red, LOW);
+      delay(200); //Zeit des Zurückfahrens definieren
+      digitalWrite(LED_red, HIGH);
+      delay(200); //Zeit des Zurückfahrens definieren
+      digitalWrite(LED_red, LOW);
+      delay(200); //Zeit des Zurückfahrens definieren
+      digitalWrite(LED_red, HIGH);
+      delay(200); //Zeit des Zurückfahrens definieren
+      digitalWrite(LED_red, LOW);
+      delay(200); //Zeit des Zurückfahrens definieren
+      digitalWrite(LED_red, HIGH);
+      delay(200); //Zeit des Zurückfahrens definieren
+      digitalWrite(LED_red, LOW);
+      delay(200); //Zeit des Zurückfahrens definieren
+      digitalWrite(LED_red, HIGH);
+      delay(200); //Zeit des Zurückfahrens definieren
+      digitalWrite(LED_red, LOW);
+      delay(200); //Zeit des Zurückfahrens definieren
+      digitalWrite(LED_red, HIGH);  
+      digitalWrite(Walze_Back, LOW);
+    } 
+  }
   // Stoppen der Walze
+  
+  Serial.println("Walze stop (!rot)");
   digitalWrite(Walze_Vor, LOW);
   digitalWrite(Walze_Enable, LOW);
   
-   digitalWrite(LED_green, LOW);
-   digitalWrite(LED_red, LOW);
+  digitalWrite(LED_green, LOW);
+  digitalWrite(LED_red, LOW);
   
-//________________________________________________
-
-//Klappe schließen
-//________________________________________________
+  //Klappe schließen
   delay(1000);
   // Signal für Klappe Schießen
+
   
-   digitalWrite(LED_green, HIGH);
-   digitalWrite(LED_red, HIGH);
+  Serial.println("Klappe zu (rot gruen)");  
+  digitalWrite(LED_green, HIGH);
+  digitalWrite(LED_red, HIGH);
   
   digitalWrite(Klappe_Enable, HIGH);
   digitalWrite(Klappe_Back, HIGH);
   delay (1000);
-   
-   // Solange der Schalter_zu kein Signal gibt, zufahren
-   while(digitalRead(Schalter_zu) == HIGH){     
-     digitalWrite(Klappe_Back, HIGH);
-     digitalWrite(Klappe_Enable, HIGH);
+  
+  // Solange der Schalter_zu kein Signal gibt, zufahren
+  while(digitalRead(Schalter_zu) == HIGH){     
+    digitalWrite(Klappe_Back, HIGH);
+    digitalWrite(Klappe_Enable, HIGH);
       
-      // Mittelwert von 10 Messwerten aufnehmen
-      for (int x = 0; x <10 ;x++) {
+    // Mittelwert von 10 Messwerten aufnehmen
+    for (int x = 0; x <10 ;x++) {
       K_Sense_value = analogRead(Klappe_Sens);
       K_Sense_mean = K_Sense_mean + K_Sense_value;
       delay(10);
-      }
-      K_Sense_mean = K_Sense_mean /10;       
+    }
+    K_Sense_mean = K_Sense_mean /10;       
       
-     // Vergleich ob Mittelwert des Signals über dem Max Wert liegt.
-     // Wenn das der Fall ist oder Lichtschranke LS1 was sieht, wieder auffahren.
-     if (digitalRead(LS1) == LOW || K_Sense_mean >= K_Sense_max){  // || digitalRead(LS11) == LOW
-       digitalWrite(Klappe_Back,LOW);
-       //STausLED wieder löschen
-       digitalWrite(LED_green, HIGH);
-       digitalWrite(LED_red, HIGH);
+    // Vergleich ob Mittelwert des Signals über dem Max Wert liegt.
+    // Wenn das der Fall ist oder Lichtschranke LS1 was sieht, wieder auffahren.
+    if (digitalRead(LS1) == LOW || K_Sense_mean >= K_Sense_max){  // || digitalRead(LS11) == LOW
+      Serial.println("Klappe wieder auf (!rot !gruen)");
+      digitalWrite(Klappe_Back,LOW);
+      //STausLED wieder löschen
+      digitalWrite(LED_green, HIGH);
+      digitalWrite(LED_red, HIGH);
        
-       goto open_again;
-       }       
-   }
-   digitalWrite(Klappe_Back, LOW);
-   digitalWrite(Klappe_Enable, LOW);   
-   digitalWrite(Aus_sig, HIGH);
-   delay(2000);   
-//________________________________________________ 
+      goto open_again;
+    }       
+  }
+  
+  Serial.println("Aufraeumen und abschalten");
+  digitalWrite(Klappe_Back, LOW);
+  digitalWrite(Klappe_Enable, LOW);   
+  digitalWrite(Aus_sig, HIGH);
+  delay(2000);   
 }
