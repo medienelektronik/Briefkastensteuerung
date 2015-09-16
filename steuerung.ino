@@ -1,6 +1,9 @@
-// These constants won't change.  They're used to give names
-// to the pins used:
+// Briefkastensreuerung Stand: 23.05.2015
+// Written by Matthias Teeken
 
+// Definieren der Hardwarepins zu Variablen
+//       Variable      = Hardwarepin         
+//_______________________________________________
 // Walze
 const int Walze_Sens   = A9;  // Messen der Spannung
 const int Walze_Vor    = PA_2;  // Motor_Vor
@@ -21,30 +24,30 @@ const int Schalter_zu    = PD_3;
 const int LS1         = PE_3; //Lichtschranke vorne 
 const int LS2         = PA_6; //Lichtschranke hinten
 
+// Pin für das Abschalten der Spannung
 const int Aus_sig    = PF_2;
+//___________________________________________
 
-int Walze            = 1;
-int Klappe           = 2;
-int vor              = 0;
-int back             = 1;
-int start            = 1;
-int stopp            = 0;
-int counter          = 0;
-
+//Definieren von Variablen und deren Anfangswerte 
 int W_Sense_value     = 0;
 int W_Sense_value_map = 0;
-int W_Sense_max       = 3900;
+int W_Sense_max       = 3900; // Einstellen des Wertes zum ändern der Walzenrichtung
+int W_Sense_mean      = 0;
 
 int K_Sense_value     = 0;
 int K_Sense_value_map = 0;
-int K_Sense_max       = 3900;
+int K_Sense_max       = 5000; //Einstellen des Wertes zum wieder öffnen der Klappe
+int K_Sense_mean      = 0;
 
-unsigned long t_start   = 0;
-unsigned long t_aktuell = 0;
-unsigned long t_soll    = 0; //Zeit des Waltenzennachlaufs in ms
+unsigned long t_start      = 0;
+unsigned long t_aktuell    = 0;
+unsigned long t_soll_Walze = 5000; //Zeit des Waltenzennachlaufs in ms
+unsigned long t_soll       = 0; 
 
 void setup() 
 {
+  
+// Definieren der Hardwarepins als Ein- oder Ausgang
   pinMode(Walze_Vor,     OUTPUT);
   pinMode(Walze_Sens,    INPUT);
   pinMode(Walze_Back,    OUTPUT);
@@ -55,21 +58,20 @@ void setup()
   pinMode(Klappe_Back,    OUTPUT);
   pinMode(Klappe_Enable,  OUTPUT);
     
+  pinMode(LS1, INPUT);
+  pinMode(LS2, INPUT);
+
+// Definieren der Hardwarepins mit Pullup-Widerstand
   pinMode(Schalter_auf,    INPUT_PULLUP);
   pinMode(Schalter_zu,     INPUT_PULLUP);
     
-  pinMode(LS1, INPUT);
-  pinMode(LS2, INPUT);
-  
+// Definieren der Anfangszustände der verwendeten HArdwarepins, alle auf LOW 
   digitalWrite(Walze_Vor,    LOW);
   digitalWrite(Walze_Back,   LOW);
   digitalWrite(Walze_Enable, LOW);
   digitalWrite(Klappe_Vor,    LOW);
   digitalWrite(Klappe_Back,   LOW);
-  digitalWrite(Klappe_Enable, LOW);
-  
-// initialize serial communications at 9600 bps:
-  Serial.begin(9600);
+  digitalWrite(Klappe_Enable, LOW);  
 }
 
 void loop() 
@@ -78,8 +80,9 @@ void loop()
 //Klappe öffnen
 //________________________________________________
    
-   open_again:
-   digitalWrite(Aus_sig, LOW);
+   open_again: //Sprungmarke, zum wieder öffnen.
+   digitalWrite(Aus_sig, LOW); // Abschaltsignal ausschalten
+   // Signal geben um aufzufahren.
    digitalWrite(Klappe_Back, LOW);
    digitalWrite(Klappe_Vor, HIGH);
    
@@ -87,6 +90,7 @@ void loop()
      digitalWrite(Klappe_Vor, HIGH);
      digitalWrite(Klappe_Enable, HIGH);    
    }
+   // Abschalten der Signale für die Klappe
    digitalWrite(Klappe_Vor, LOW);
    digitalWrite(Klappe_Enable, LOW);   
 //________________________________________________
@@ -96,67 +100,67 @@ void loop()
 //________________________________________________
 t_start   = millis();
 t_aktuell = millis();
-t_soll    = 10000;
- while(t_aktuell < (t_start+t_soll) || digitalRead(LS1) == LOW || digitalRead(LS2) == LOW ) 
+ while(t_aktuell < (t_start+t_soll_Walze) || digitalRead(LS1) == LOW || digitalRead(LS2) == LOW ) 
  {  
   digitalWrite(Walze_Vor, HIGH);
   digitalWrite(Walze_Enable, HIGH);
   t_aktuell = millis();
+       
+// Mittelwert von 10 Messwerten aufnehmen in 100ms prüfen, ob Packet zu dick ist.
+      for (int x = 0; x <10 ;x++) {
+      W_Sense_value = analogRead(Walze_Sens);
+      W_Sense_mean = W_Sense_mean + W_Sense_value;
+      delay(10);
+      }
+      W_Sense_mean = W_Sense_mean /10;
   
-  
-  
-  W_Sense_value = analogRead(Walze_Sens);
-  W_Sense_value_map = map(W_Sense_value,0,4000,0,1000);
-  
-  Serial.print("sensor Walze= " );                       
-  Serial.print(W_Sense_value);      
-  Serial.print("\t output = ");      
-  Serial.println(W_Sense_value_map);
-  delay(10);
 
- //   Wenn packet zu dick, dass Motor blockiert zurückfahren !!!
-  if (W_Sense_value >= W_Sense_max)
+//   Wenn packet zu dick, dass Motor blockiert zurückfahren für 2sec!!!
+  if (W_Sense_mean >= W_Sense_max)
   {
     digitalWrite(Walze_Enable, HIGH);
     digitalWrite(Walze_Vor, LOW);
     digitalWrite(Walze_Back, HIGH);
-    delay(2000);
+    delay(2000); //Zeit des Zurückfahrens definieren
     digitalWrite(Walze_Back, LOW);
   } 
  }
+  // Stoppen der Walze
   digitalWrite(Walze_Vor, LOW);
   digitalWrite(Walze_Enable, LOW);
 //________________________________________________
 
-//Klappe schießen
+//Klappe schließen
 //________________________________________________
-delay(1000);
+  delay(1000);
+  // Signal für Klappe Schießen
   digitalWrite(Klappe_Enable, HIGH);
   digitalWrite(Klappe_Back, HIGH);
-   delay (1000);
+  delay (1000);
    
+   // Solange der Schalter_zu kein Signal gibt, zufahren
    while(digitalRead(Schalter_zu) == HIGH){     
      digitalWrite(Klappe_Back, HIGH);
      digitalWrite(Klappe_Enable, HIGH);
-              
+      
+      // Mittelwert von 10 Messwerten aufnehmen
+      for (int x = 0; x <20 ;x++) {
       K_Sense_value = analogRead(Klappe_Sens);
-      K_Sense_value_map = map(K_Sense_value,0,4000,0,1000);
-      Serial.print("sensor Klappe= " );                       
-      Serial.print(W_Sense_value);      
-      Serial.print("\t output = ");      
-      Serial.println(W_Sense_value_map);
+      K_Sense_mean = K_Sense_mean + K_Sense_value;
       delay(10);
-     
-     if (digitalRead(LS1) == LOW || K_Sense_value >= K_Sense_max){
+      }
+      K_Sense_mean = K_Sense_mean /20;       
+      
+     // Vergleich ob Mittelwert des Signals über dem Max Wert liegt.
+     // Wenn das der Fall ist oder Lichtschranke LS1 was sieht, wieder auffahren.
+     if (digitalRead(LS1) == LOW || K_Sense_mean >= K_Sense_max){
        digitalWrite(Klappe_Back,LOW);       
        goto open_again;
        }       
    }
    digitalWrite(Klappe_Back, LOW);
-   digitalWrite(Klappe_Enable, LOW);
-   
+   digitalWrite(Klappe_Enable, LOW);   
    digitalWrite(Aus_sig, HIGH);
-   delay(2000);
-   
+   delay(2000);   
 //________________________________________________ 
 }
