@@ -127,6 +127,29 @@ void kill_all() {
 	digitalWrite(END, HIGH);
 }
 
+int lichtschrank_vorn_hell() {
+		return digitalRead(LVH);
+}
+
+int lichtschrank_vorn_dunkel() {
+		return digitalRead(LVD);
+}
+
+int lichtschrank_hinten_hell() {
+		return digitalRead(LHH);
+}
+
+int lichtschrank_hinten_dunkel() {
+		return digitalRead(LHD);
+}
+
+int lichtschranken() {
+	if(lichtschrank_vorn_hell() == HIGH|| lichtschrank_vorn_dunkel() == HIGH || lichtschrank_hinten_hell() == HIGH || lichtschrank_hinten_dunkel() == HIGH)
+		return HIGH;
+	else
+		return LOW;
+}
+
 void loop() {
 	//diese Variablen müssen bei jedem neuen durchlauf bereinigt werden
 	long start = 0;
@@ -143,7 +166,11 @@ void loop() {
 	while(durchgang == HIGH) {//hier wird geklärt ob es noch einen durchgang gibt
 		durchlauf = LOW
 		start = millis();
-		while((start+WLV)<millis() && schwer < WC) { //TODO Lichtschranken fehlen
+		while((start+WLV)<millis() && schwer < WC) { 
+			if(lichtschranken() == HIGH) {
+				start = millis();
+			}
+			
 			if(sensor_walze()) {
 				schwer++;
 				walze_zurueck();
@@ -154,18 +181,25 @@ void loop() {
 			}
 		} 
 		walze_stop();
+		//TODO schwer counter prüfen
 		
 		start = millis();
 		while((start+LW)<millis() && durchlauf == LOW) {
-			if() {// todo lichtschranke
+			if(lichtschranken() == HIGH) {// todo lichtschranke
 				durchlauf = HIGH;
 			}
 			// nix tun bis zeit abläuft oder lichtschranke
 		}
 	}
-	
+
+	klappe_zu();
 	// klappe schließen
-		// beim schließen auf LS achten und auf sense
-		
-	//wenn alles ohne unterbrechung klappte killsig
+	while(schalter_zu() == LOW && lichtschranken() == LOW) {
+	// beim schließen auf LS achten und auf sense	
+	}
+	klappe_stop();
+	if(schalter_zu() == HIGH) {
+		kill_all();
+		//wenn alles ohne unterbrechung klappte killsig
+	}
 }
