@@ -2,20 +2,20 @@
 //S Titz
 
 //Walze
-const int WS = A9;
-const int WV = PA_2;
+const int WS = A9;		//Walze Sense
+const int WV = PA_2;	//Walze Vor
 const int WZ = PA_4;
 const int WE = PA_3;
-//Lichtschranke
-const int LVH = PE_3;
-const int LVD = PD_0;
-const int LHH = PA_6;
-const int LHD = PD_1;
 //Klappe
 const int KS = A8;
 const int KV = PD_6;
 const int KZ = PF_4;
 const int KE = PD_7;
+//Lichtschranke
+const int LVH = PE_3;
+const int LVD = PD_0;
+const int LHH = PA_6;
+const int LHD = PD_1;
 //SigTerm
 const int END = PF_2;
 //Schalter
@@ -23,9 +23,14 @@ const int SA = PD_2;
 const int SZ = PD_3;
 
 //maxima
-const int KM = 2000
-const int WM = 2000
-const int WL = 5000
+const int KM =  2000
+const int WM =  2000
+const int WC =  5
+
+//timer
+const int WLV = 5000
+const int WLZ = 5000
+const int LW = 3000 
 
 void setup() {
 	Serial.begin(9600);
@@ -123,13 +128,44 @@ void kill_all() {
 }
 
 void loop() {
+	//diese Variablen müssen bei jedem neuen durchlauf bereinigt werden
+	long start = 0;
+	int schwer = 0;
+	int durchgang = HIGH
+	
 	klappe_auf();
 	while(!schalter_auf() && sensor_klappe()){
 		//nix tun bis endschalter oder zu heftig klappe
 	}
 	klappe_stop();
 	walze_vor();
-	long walze_start = millis();
-	//dann klappe stop
-	//walze an
+
+	while(durchgang == HIGH) {//hier wird geklärt ob es noch einen durchgang gibt
+		durchlauf = LOW
+		start = millis();
+		while((start+WLV)<millis() && schwer < WC) { //TODO Lichtschranken fehlen
+			if(sensor_walze()) {
+				schwer++;
+				walze_zurueck();
+				while((start+WLZ)<millis()) {
+					//nixtun bis zeit zuende
+				}
+				walze_vor();
+			}
+		} 
+		walze_stop();
+		
+		start = millis();
+		while((start+LW)<millis() && durchlauf == LOW) {
+			if() {// todo lichtschranke
+				durchlauf = HIGH;
+			}
+			// nix tun bis zeit abläuft oder lichtschranke
+		}
+	}
+	
+	// klappe schließen
+		// beim schließen auf LS achten und auf sense
+		
+	//wenn alles ohne unterbrechung klappte killsig
 }
