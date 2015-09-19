@@ -152,54 +152,60 @@ int lichtschranken() {
 
 void loop() {
 	//diese Variablen müssen bei jedem neuen durchlauf bereinigt werden
-	long start = 0;
-	int schwer = 0;
-	int durchgang = HIGH
+	long start = 0; //speichert den millisekunden wert für diverse timer
+	int schwer = 0; // zählt wie oft in dem durchgang ein paket zu schwer einzuziehen war
+	int durchgang = HIGH // speichert on noch ein einzugsdurchgang geplant ist
 	
 	klappe_auf();
 	while(!schalter_auf() && sensor_klappe()){
-		//nix tun bis endschalter oder zu heftig klappe
+		//wartet bin der endschalter klappe auf an ist oder klappe zu schwer geht
 	}
 	klappe_stop();
 	walze_vor();
 
 	while(durchgang == HIGH) {//hier wird geklärt ob es noch einen durchgang gibt
-		durchlauf = LOW
-		start = millis();
-		while((start+WLV)<millis() && schwer < WC) { 
+		durchlauf = LOW //durchgang löschen
+		start = millis(); // starttimer initiieren
+		while((start+WLV)<millis() && schwer < WC) {
+			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
 			if(lichtschranken() == HIGH) {
+				//wenn die Lichtschranken was neues sehen, wird der Timer zurück gesetzt
 				start = millis();
 			}
 			
 			if(sensor_walze()) {
+				//wenn einzug zu schwer wird ein zu schwer gezählt
 				schwer++;
 				walze_zurueck();
 				while((start+WLZ)<millis()) {
-					//nixtun bis zeit zuende
+					//lässt den rückwärtstimer ablaufen und versucht dann wieder vor zu fahren
+					// dann greift der schwercounter oben 
 				}
 				walze_vor();
 			}
 		} 
+		//walz stoppen, solang nicht zu sehen ist
 		walze_stop();
-		//TODO schwer counter prüfen
+		//TODO schwer counter prüfen die klappe darf nicht schließen solang noch ein paket drin liegt, darum müsste es noch eine abschalt automatisk geben die das detektiert, anstatt immer wieder in die runde zu fahren
 		
-		start = millis();
+		start = millis(); // init nachlauf Timer
 		while((start+LW)<millis() && durchlauf == LOW) {
 			if(lichtschranken() == HIGH) {// todo lichtschranke
+				// wenn lichtschranken was sehen noch einen neuen durchlauf
 				durchlauf = HIGH;
 			}
-			// nix tun bis zeit abläuft oder lichtschranke
 		}
 	}
 
 	klappe_zu();
 	// klappe schließen
 	while(schalter_zu() == LOW && lichtschranken() == LOW) {
-	// beim schließen auf LS achten und auf sense	
+		// beim schließen auf LS achten und auf sense	
 	}
 	klappe_stop();
 	if(schalter_zu() == HIGH) {
 		kill_all();
 		//wenn alles ohne unterbrechung klappte killsig
 	}
+	//alles von vorne
 }
