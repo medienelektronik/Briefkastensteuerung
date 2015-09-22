@@ -102,9 +102,10 @@ int sensor_walze() {
 		ret = ret + analogRead(WS);
 		delay(10);
     }    
-    Serial.print("Sensor Walze");
-    Serial.println(ret/10);
-	return (ret/10) < WM;
+    Serial.print("Sensor Walze: ");
+    Serial.print(ret/10);
+    Serial.println((ret/10) > WM);
+	return (ret/10) > WM;
 }
 
 int sensor_klappe() {
@@ -113,9 +114,10 @@ int sensor_klappe() {
 		ret = ret + analogRead(KS);
 		delay(10);
     }
-    Serial.print("Sensor Klappe");
-    Serial.println(ret/10);
-	return (ret/10) < KM;
+    Serial.print("Sensor Klappe: ");
+    Serial.print(ret/10);
+    Serial.println((ret/10) > WM);
+	return (ret/10) > KM;
 }
 
 int schalter_auf() {
@@ -148,9 +150,10 @@ int lichtschrank_hinten_dunkel() {
 }
 
 int lichtschranken() {
-	if(lichtschrank_vorn_hell() == HIGH|| lichtschrank_vorn_dunkel() == HIGH || lichtschrank_hinten_hell() == HIGH || lichtschrank_hinten_dunkel() == HIGH)
+	if(lichtschrank_vorn_hell() == HIGH|| lichtschrank_vorn_dunkel() == HIGH || lichtschrank_hinten_hell() == HIGH || lichtschrank_hinten_dunkel() == HIGH) {
+                Serial.println("Lichtschranke getriggert");
 		return HIGH;
-	else
+	}else
 		return LOW;
 }
 
@@ -168,14 +171,17 @@ void loop() {
 	klappe_stop();
 	walze_vor();
 
-	while(durchgang == HIGH) {//hier wird geklärt ob es noch einen durchgang gibt
+	while(durchgang == HIGH) {
+                //hier wird geklärt ob es noch einen durchgang gibt
 		durchgang = LOW; //durchgang löschen
 		start = millis(); // starttimer initiieren
                 Serial.print("Start Var = ");
                 Serial.println(start);
                 Serial.print("lauf bis");
                 Serial.println(start+WLV);
-		while((start+WLV)<millis() && schwer < WC) {
+		while((start+WLV)>millis() && schwer < WC) {
+                        Serial.print("zu Schwer Counter: ");
+                        Serial.println(schwer);
 			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
 			if(lichtschranken() == HIGH) {
 				//wenn die Lichtschranken was neues sehen, wird der Timer zurück gesetzt
@@ -187,6 +193,7 @@ void loop() {
 				schwer++;
 				walze_zurueck();
 				while((start+WLZ)<millis()) {
+                                        Serial.println("warte beim walrze zurueck");
 					//lässt den rückwärtstimer ablaufen und versucht dann wieder vor zu fahren
 					// dann greift der schwercounter oben 
 				}
@@ -195,15 +202,18 @@ void loop() {
 		} 
 		//walz stoppen, solang nicht zu sehen ist
 		walze_stop();
-		//TODO schwer counter prüfen die klappe darf nicht schließen solang noch ein paket drin liegt, darum müsste es noch eine abschalt automatisk geben die das detektiert, anstatt immer wieder in die runde zu fahren
-		
-		start = millis(); // init nachlauf Timer
-		while((start+LW)<millis() && durchgang == LOW) {
-			if(lichtschranken() == HIGH) {// todo lichtschranke
-				// wenn lichtschranken was sehen noch einen neuen durchlauf
-				durchgang = HIGH;
-			}
-		}
+
+                if(schwer >= WC) {
+                     kill_all();    
+                }else{
+          		start = millis(); // init nachlauf Timer
+        		while((start+LW)>millis() && durchgang == LOW) {
+        			if(lichtschranken() == HIGH) {// todo lichtschranke
+        				// wenn lichtschranken was sehen noch einen neuen durchlauf
+        				durchgang = HIGH;
+        			}
+        		}
+                }
 	}
 
 	klappe_zu();
