@@ -101,7 +101,9 @@ int sensor_walze() {
 	for (int i = 0; i <10 ;i++) {
 		ret = ret + analogRead(WS);
 		delay(10);
-    }
+    }    
+    Serial.print("Sensor Walze");
+    Serial.println(ret/10);
 	return (ret/10) < WM;
 }
 
@@ -111,6 +113,8 @@ int sensor_klappe() {
 		ret = ret + analogRead(KS);
 		delay(10);
     }
+    Serial.print("Sensor Klappe");
+    Serial.println(ret/10);
 	return (ret/10) < KM;
 }
 
