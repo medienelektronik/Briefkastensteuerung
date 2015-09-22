@@ -123,7 +123,7 @@ int schalter_zu() {
 }
 
 void kill_all() {
-	Serial.println("Kill em All!!!")
+	Serial.println("Kill em All!!!");
 	digitalWrite(END, HIGH);
 }
 
@@ -154,7 +154,7 @@ void loop() {
 	//diese Variablen müssen bei jedem neuen durchlauf bereinigt werden
 	long start = 0; //speichert den millisekunden wert für diverse timer
 	int schwer = 0; // zählt wie oft in dem durchgang ein paket zu schwer einzuziehen war
-	int durchgang = HIGH // speichert on noch ein einzugsdurchgang geplant ist
+	int durchgang = HIGH; // speichert on noch ein einzugsdurchgang geplant ist
 	
 	klappe_auf();
 	while(!schalter_auf() && sensor_klappe()){
@@ -164,7 +164,7 @@ void loop() {
 	walze_vor();
 
 	while(durchgang == HIGH) {//hier wird geklärt ob es noch einen durchgang gibt
-		durchlauf = LOW //durchgang löschen
+		durchgang = LOW; //durchgang löschen
 		start = millis(); // starttimer initiieren
 		while((start+WLV)<millis() && schwer < WC) {
 			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
@@ -189,10 +189,10 @@ void loop() {
 		//TODO schwer counter prüfen die klappe darf nicht schließen solang noch ein paket drin liegt, darum müsste es noch eine abschalt automatisk geben die das detektiert, anstatt immer wieder in die runde zu fahren
 		
 		start = millis(); // init nachlauf Timer
-		while((start+LW)<millis() && durchlauf == LOW) {
+		while((start+LW)<millis() && durchgang == LOW) {
 			if(lichtschranken() == HIGH) {// todo lichtschranke
 				// wenn lichtschranken was sehen noch einen neuen durchlauf
-				durchlauf = HIGH;
+				durchgang = HIGH;
 			}
 		}
 	}
