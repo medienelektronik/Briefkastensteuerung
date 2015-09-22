@@ -171,6 +171,10 @@ void loop() {
 	while(durchgang == HIGH) {//hier wird geklärt ob es noch einen durchgang gibt
 		durchgang = LOW; //durchgang löschen
 		start = millis(); // starttimer initiieren
+                Serial.print("Start Var = ");
+                Serial.println(start);
+                Serial.print("lauf bis");
+                Serial.println(start+WLV);
 		while((start+WLV)<millis() && schwer < WC) {
 			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
 			if(lichtschranken() == HIGH) {
