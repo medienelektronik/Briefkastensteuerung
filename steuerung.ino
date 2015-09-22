@@ -23,8 +23,8 @@ const int SA = PD_2;
 const int SZ = PD_3;
 
 //maxima
-const long KM =  2000;
-const long WM =  2000;
+const long KM =  4000;
+const long WM =  4000;
 const int WC =  5;
 
 //timer
@@ -165,6 +165,7 @@ void loop() {
 	int durchgang = HIGH; // speichert on noch ein einzugsdurchgang geplant ist
 	
 	klappe_auf();
+        delay(100);
 	while(!schalter_auf() && sensor_klappe()){
 		//wartet bin der endschalter klappe auf an ist oder klappe zu schwer geht
 	}
@@ -180,6 +181,10 @@ void loop() {
                 Serial.print("lauf bis");
                 Serial.println(start+WLV);
 		while((start+WLV)>millis() && schwer < WC) {
+                        Serial.print("Zeit: ");
+                        Serial.println(millis());
+                        Serial.print("bis: ");
+                        Serial.println(start+WLV);  
                         Serial.print("zu Schwer Counter: ");
                         Serial.println(schwer);
 			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
@@ -192,8 +197,7 @@ void loop() {
 				//wenn einzug zu schwer wird ein zu schwer gezählt
 				schwer++;
 				walze_zurueck();
-				while((start+WLZ)<millis()) {
-                                        Serial.println("warte beim walrze zurueck");
+				while((start+WLZ)>millis()) {
 					//lässt den rückwärtstimer ablaufen und versucht dann wieder vor zu fahren
 					// dann greift der schwercounter oben 
 				}
