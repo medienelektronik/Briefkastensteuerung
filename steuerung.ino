@@ -24,7 +24,7 @@ const int SZ = PD_3;
 
 //maxima
 const long KM =  4000;
-const long WM =  4000;
+const long WM =  3000;
 const int WC =  5;
 
 //timer
