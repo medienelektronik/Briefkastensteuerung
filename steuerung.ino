@@ -2,7 +2,7 @@
 //S Titz
 
 //Walze
-const int WS = A9;		//Walze Sense
+const int WS = A9;	//Walze Sense
 const int WV = PA_2;	//Walze Vor
 const int WZ = PA_4;
 const int WE = PA_3;
@@ -23,14 +23,14 @@ const int SA = PD_2;
 const int SZ = PD_3;
 
 //maxima
-const int KM =  2000
-const int WM =  2000
-const int WC =  5
+const long KM =  2000;
+const long WM =  2000;
+const int WC =  5;
 
 //timer
-const int WLV = 5000
-const int WLZ = 5000
-const int LW = 3000 
+const long WLV = 5000;
+const long WLZ = 5000;
+const long LW = 3000 ;
 
 void setup() {
 	Serial.begin(9600);
