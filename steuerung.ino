@@ -43,12 +43,12 @@ void setup() {
 	pinMode(KE, OUTPUT);
 	pinMode(END,OUTPUT); 
 	
-	pinMode(WS, INPUT);
-	pinMode(KS, INPUT);
-	pinMode(LVH,INPUT);
-	pinMode(LVD,INPUT);
-	pinMode(LHH,INPUT);
-	pinMode(LHD,INPUT);
+	pinMode(WS, INPUT_PULLUP);
+	pinMode(KS, INPUT_PULLUP);
+	pinMode(LVH,INPUT_PULLUP);
+	pinMode(LVD,INPUT_PULLUP);
+	pinMode(LHH,INPUT_PULLUP);
+	pinMode(LHD,INPUT_PULLUP);
 	
 	pinMode(SA, INPUT_PULLUP);
 	pinMode(SZ, INPUT_PULLUP);
@@ -151,6 +151,7 @@ int lichtschranken() {
 }
 
 void loop() {
+        Serial.println("Init!!!");
 	//diese Variablen müssen bei jedem neuen durchlauf bereinigt werden
 	long start = 0; //speichert den millisekunden wert für diverse timer
 	int schwer = 0; // zählt wie oft in dem durchgang ein paket zu schwer einzuziehen war
