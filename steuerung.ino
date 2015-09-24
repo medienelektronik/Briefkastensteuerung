@@ -2,14 +2,14 @@
 //S Titz
 
 //Walze
-const int WS = A9;	//Walze Sense
+const int WS = A5;	//Walze Sense
 const int WV = PA_2;	//Walze Vor
 const int WZ = PA_4;
 const int WE = PA_3;
 //Klappe
-const int KS = A8;
-const int KV = PD_6;
-const int KZ = PF_4;
+const int KS = A4;
+const int KV = PF_4;
+const int KZ = PD_6;
 const int KE = PD_7;
 //Lichtschranke
 const int LVH = PE_3;
@@ -19,12 +19,12 @@ const int LHD = PD_1;
 //SigTerm
 const int END = PF_2;
 //Schalter
-const int SA = PD_2;
-const int SZ = PD_3;
+const int SA = PE_4;
+const int SZ = PE_5;
 
 //maxima
-const long KM =  4000;
-const long WM =  3000;
+const long KM =  14000;
+const long WM =  2000;
 const int WC =  5;
 
 //timer
@@ -43,15 +43,22 @@ void setup() {
 	pinMode(KE, OUTPUT);
 	pinMode(END,OUTPUT); 
 	
-	pinMode(WS, INPUT_PULLUP);
-	pinMode(KS, INPUT_PULLUP);
-	pinMode(LVH,INPUT_PULLUP);
-	pinMode(LVD,INPUT_PULLUP);
-	pinMode(LHH,INPUT_PULLUP);
-	pinMode(LHD,INPUT_PULLUP);
+	pinMode(WS, INPUT);
+	pinMode(KS, INPUT);
+	pinMode(LVH,INPUT);
+	pinMode(LVD,INPUT);
+	pinMode(LHH,INPUT);
+	pinMode(LHD,INPUT);
 	
 	pinMode(SA, INPUT_PULLUP);
 	pinMode(SZ, INPUT_PULLUP);
+}
+
+void wait(long secs) {
+  for(long i=0;i<secs;i++) {
+    delay(1000);
+  }
+  Serial.println(secs);
 }
 
 void klappe_auf() {
@@ -91,9 +98,9 @@ void walze_zurueck() {
 
 void walze_stop() {
 	Serial.println("walze_stop");
-	digitalWrite(KE, LOW);
-	digitalWrite(KZ, LOW);
-	digitalWrite(KV, LOW);
+	digitalWrite(WE, LOW);
+	digitalWrite(WZ, LOW);
+	digitalWrite(WV, LOW);
 }
 
 int sensor_walze() {
@@ -121,32 +128,49 @@ int sensor_klappe() {
 }
 
 int schalter_auf() {
-	return digitalRead(SA);
+	pinMode(SA, INPUT_PULLUP);
+        if(digitalRead(SA)) {
+          Serial.println("Schalter auf nein");
+          return 0;
+        }else{
+          Serial.println("Schalter auf ja");
+          return 1;
+        }
 }
 
 int schalter_zu() {
-	return digitalRead(SZ);
+	pinMode(SZ, INPUT_PULLUP);
+        if(digitalRead(SZ)) {
+          Serial.println("Schalter zu nein");
+          return 0;
+        }else{
+          Serial.println("Schalter zu ja");
+          return 1;
+        }
 }
 
 void kill_all() {
 	Serial.println("Kill em All!!!");
 	digitalWrite(END, HIGH);
+        while(true) {
+          delay(250);
+        }
 }
 
 int lichtschrank_vorn_hell() {
-		return digitalRead(LVH);
+		return !digitalRead(LVH);
 }
 
 int lichtschrank_vorn_dunkel() {
-		return digitalRead(LVD);
+		return !digitalRead(LVD);
 }
 
 int lichtschrank_hinten_hell() {
-		return digitalRead(LHH);
+		return !digitalRead(LHH);
 }
 
 int lichtschrank_hinten_dunkel() {
-		return digitalRead(LHD);
+		return !digitalRead(LHD);
 }
 
 int lichtschranken() {
@@ -158,19 +182,19 @@ int lichtschranken() {
 }
 
 void loop() {
-        Serial.println("Init!!!");
-	//diese Variablen müssen bei jedem neuen durchlauf bereinigt werden
-	long start = 0; //speichert den millisekunden wert für diverse timer
+        long start = 0; //speichert den millisekunden wert für diverse timer
 	int schwer = 0; // zählt wie oft in dem durchgang ein paket zu schwer einzuziehen war
 	int durchgang = HIGH; // speichert on noch ein einzugsdurchgang geplant ist
-	
+        Serial.println("Init!!!(13)");
+      // klappe öffnen
 	klappe_auf();
-        delay(100);
-	while(!schalter_auf() && sensor_klappe()){
-		//wartet bin der endschalter klappe auf an ist oder klappe zu schwer geht
-	}
-	klappe_stop();
-	walze_vor();
+        while(!schalter_auf()) {
+          delay(50);
+        }
+        klappe_stop();
+      // ----
+      // Walze vor
+      walze_vor();
 
 	while(durchgang == HIGH) {
                 //hier wird geklärt ob es noch einen durchgang gibt
@@ -188,12 +212,12 @@ void loop() {
                         Serial.print("zu Schwer Counter: ");
                         Serial.println(schwer);
 			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
-			if(lichtschranken() == HIGH) {
+			/*if(lichtschranken() == HIGH) {
 				//wenn die Lichtschranken was neues sehen, wird der Timer zurück gesetzt
 				start = millis();
-			}
+			}//*/
 			
-			if(sensor_walze()) {
+			/*if(sensor_walze()) {
 				//wenn einzug zu schwer wird ein zu schwer gezählt
 				schwer++;
 				walze_zurueck();
@@ -202,7 +226,7 @@ void loop() {
 					// dann greift der schwercounter oben 
 				}
 				walze_vor();
-			}
+			}//*/
 		} 
 		//walz stoppen, solang nicht zu sehen ist
 		walze_stop();
@@ -212,23 +236,22 @@ void loop() {
                 }else{
           		start = millis(); // init nachlauf Timer
         		while((start+LW)>millis() && durchgang == LOW) {
-        			if(lichtschranken() == HIGH) {// todo lichtschranke
+        			/*if(lichtschranken() == HIGH) {// todo lichtschranke
         				// wenn lichtschranken was sehen noch einen neuen durchlauf
         				durchgang = HIGH;
-        			}
+        			}//*/
         		}
                 }
 	}
-
-	klappe_zu();
-	// klappe schließen
-	while(schalter_zu() == LOW && lichtschranken() == LOW) {
-		// beim schließen auf LS achten und auf sense	
-	}
-	klappe_stop();
-	if(schalter_zu() == HIGH) {
-		kill_all();
-		//wenn alles ohne unterbrechung klappte killsig
-	}
-	//alles von vorne
+        wait(2);
+        klappe_zu();
+        schalter_zu();
+        while(!schalter_zu()) {
+          delay(50);
+        }
+        Serial.println("");
+        klappe_stop();
+        wait(2);
+        Serial.println("");
+        kill_all();//*/
 }
