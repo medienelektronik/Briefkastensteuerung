@@ -162,7 +162,7 @@ int lichtschrank_vorn_hell() {
 }
 
 int lichtschrank_vorn_dunkel() {
-		return !digitalRead(LVD);
+		return digitalRead(LVD);
 }
 
 int lichtschrank_hinten_hell() {
@@ -182,7 +182,6 @@ int lichtschranken() {
 }
 
 void loop() {
-  
   Serial.print(lichtschrank_vorn_hell());
   Serial.print(" ");
   Serial.print(lichtschrank_vorn_dunkel());
