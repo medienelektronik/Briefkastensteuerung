@@ -24,7 +24,7 @@ const int SZ = PE_5;
 
 //maxima
 const long KM =  3500;
-const long WM =  3500;
+const long WM =  4000;
 const int WC =  5;
 
 //timer
@@ -171,12 +171,18 @@ int lichtschrank_hinten_hell() {
 }
 
 int lichtschrank_hinten_dunkel() {
-		return !digitalRead(LHD);
+		return digitalRead(LHD);
 }
 
 int lichtschranken() {
+    Serial.print(lichtschrank_vorn_hell());
+    Serial.print(" ");
+    Serial.print(lichtschrank_vorn_dunkel());
+    Serial.print(" ");
+    Serial.print(lichtschrank_hinten_hell());
+    Serial.print(" ");
+    Serial.println(lichtschrank_hinten_dunkel());
 	if(lichtschrank_vorn_hell() == HIGH || lichtschrank_vorn_dunkel() == HIGH || lichtschrank_hinten_hell() == HIGH || lichtschrank_hinten_dunkel() == HIGH) {
-                Serial.println("Lichtschranke getriggert");
 		return HIGH;
 	}else
 		return LOW;
