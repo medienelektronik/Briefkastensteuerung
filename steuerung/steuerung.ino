@@ -3,8 +3,8 @@
 
 //Walze
 const int WS = A5;	//Walze Sense
-const int WV = PA_2;	//Walze Vor
-const int WZ = PA_4;
+const int WZ = PA_2;	//Walze Vor
+const int WV = PA_4;
 const int WE = PA_3;
 //Klappe
 const int KS = A4;
@@ -23,8 +23,8 @@ const int SA = PE_4;
 const int SZ = PE_5;
 
 //maxima
-const long KM =  14000;
-const long WM =  2000;
+const long KM =  3500;
+const long WM =  3500;
 const int WC =  5;
 
 //timer
@@ -111,8 +111,9 @@ int sensor_walze() {
     }    
     Serial.print("Sensor Walze: ");
     Serial.print(ret/10);
+    Serial.print(" ");
     Serial.println((ret/10) > WM);
-	return (ret/10) > WM;
+    return (ret/10) > WM;
 }
 
 int sensor_klappe() {
@@ -162,7 +163,7 @@ int lichtschrank_vorn_hell() {
 }
 
 int lichtschrank_vorn_dunkel() {
-		return !digitalRead(LVD);
+		return digitalRead(LVD);
 }
 
 int lichtschrank_hinten_hell() {
@@ -205,19 +206,14 @@ void loop() {
                 Serial.print("lauf bis");
                 Serial.println(start+WLV);
 		while((start+WLV)>millis() && schwer < WC) {
-                        Serial.print("Zeit: ");
-                        Serial.println(millis());
-                        Serial.print("bis: ");
-                        Serial.println(start+WLV);  
-                        Serial.print("zu Schwer Counter: ");
-                        Serial.println(schwer);
 			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
 			if(lichtschranken() == HIGH) {
 				//wenn die Lichtschranken was neues sehen, wird der Timer zurück gesetzt
 				start = millis();
 			}//*/
 			
-			/*if(sensor_walze()) {
+			if(sensor_walze()) {
+                                Serial.println("Zu schwer");
 				//wenn einzug zu schwer wird ein zu schwer gezählt
 				schwer++;
 				walze_zurueck();
@@ -236,9 +232,10 @@ void loop() {
                 }else{
           		start = millis(); // init nachlauf Timer
         		while((start+LW)>millis() && durchgang == LOW) {
-        			/*if(lichtschranken() == HIGH) {// todo lichtschranke
+        			if(lichtschranken() == HIGH) {// todo lichtschranke
         				// wenn lichtschranken was sehen noch einen neuen durchlauf
         				durchgang = HIGH;
+                                        walze_vor();
         			}//*/
         		}
                 }
@@ -248,6 +245,7 @@ void loop() {
         schalter_zu();
         while(!schalter_zu()) {
           delay(50);
+          //TODO schalter
         }
         Serial.println("");
         klappe_stop();
