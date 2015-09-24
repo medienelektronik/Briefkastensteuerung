@@ -43,21 +43,22 @@ void setup() {
 	pinMode(KE, OUTPUT);
 	pinMode(END,OUTPUT); 
 	
-	pinMode(WS, INPUT_PULLUP);
-	pinMode(KS, INPUT_PULLUP);
-	pinMode(LVH,INPUT_PULLUP);
-	pinMode(LVD,INPUT_PULLUP);
-	pinMode(LHH,INPUT_PULLUP);
-	pinMode(LHD,INPUT_PULLUP);
+	pinMode(WS, INPUT);
+	pinMode(KS, INPUT);
+	pinMode(LVH,INPUT);
+	pinMode(LVD,INPUT);
+	pinMode(LHH,INPUT);
+	pinMode(LHD,INPUT);
 	
 	pinMode(SA, INPUT_PULLUP);
 	pinMode(SZ, INPUT_PULLUP);
 }
 
-void wait(long milsec) {
-  for(long i=0;i<milsec;i++) {
-    delay(1);
+void wait(long secs) {
+  for(long i=0;i<secs;i++) {
+    delay(1000);
   }
+  Serial.println(secs);
 }
 
 void klappe_auf() {
@@ -137,6 +138,9 @@ int schalter_zu() {
 void kill_all() {
 	Serial.println("Kill em All!!!");
 	digitalWrite(END, HIGH);
+        while(true) {
+          delay(250);
+        }
 }
 
 int lichtschrank_vorn_hell() {
@@ -176,13 +180,15 @@ void loop() {
         }
         Serial.println("");
         klappe_stop();
-        wait(2000);
+        wait(2);
         klappe_zu();
-        while(!schalter_zu()) {
+        while(schalter_zu()) {
           delay(50);
+          Serial.print("I");
         }
+        Serial.println("");
         klappe_stop();
-        wait(2000);
+        wait(2);
         Serial.println("");
         kill_all();
 }
