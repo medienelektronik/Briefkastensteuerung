@@ -2,14 +2,14 @@
 //S Titz
 
 //Walze
-const int WS = A9;	//Walze Sense
+const int WS = A5;	//Walze Sense
 const int WV = PA_2;	//Walze Vor
 const int WZ = PA_4;
 const int WE = PA_3;
 //Klappe
-const int KS = A8;
-const int KV = PF_4;
-const int KZ = PD_6;
+const int KS = A4;
+const int KV = PD_6;
+const int KZ = PF_4;
 const int KE = PD_7;
 //Lichtschranke
 const int LVH = PE_3;
@@ -212,12 +212,12 @@ void loop() {
                         Serial.print("zu Schwer Counter: ");
                         Serial.println(schwer);
 			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
-			if(lichtschranken() == HIGH) {
+			/*if(lichtschranken() == HIGH) {
 				//wenn die Lichtschranken was neues sehen, wird der Timer zurück gesetzt
 				start = millis();
-			}
+			}//*/
 			
-			if(sensor_walze()) {
+			/*if(sensor_walze()) {
 				//wenn einzug zu schwer wird ein zu schwer gezählt
 				schwer++;
 				walze_zurueck();
@@ -226,7 +226,7 @@ void loop() {
 					// dann greift der schwercounter oben 
 				}
 				walze_vor();
-			}
+			}//*/
 		} 
 		//walz stoppen, solang nicht zu sehen ist
 		walze_stop();
@@ -236,10 +236,10 @@ void loop() {
                 }else{
           		start = millis(); // init nachlauf Timer
         		while((start+LW)>millis() && durchgang == LOW) {
-        			if(lichtschranken() == HIGH) {// todo lichtschranke
+        			/*if(lichtschranken() == HIGH) {// todo lichtschranke
         				// wenn lichtschranken was sehen noch einen neuen durchlauf
         				durchgang = HIGH;
-        			}
+        			}//*/
         		}
                 }
 	}
