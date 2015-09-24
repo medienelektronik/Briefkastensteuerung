@@ -174,7 +174,7 @@ int lichtschrank_hinten_dunkel() {
 }
 
 int lichtschranken() {
-	if(lichtschrank_vorn_hell() == HIGH|| lichtschrank_vorn_dunkel() == HIGH || lichtschrank_hinten_hell() == HIGH || lichtschrank_hinten_dunkel() == HIGH) {
+	if(lichtschrank_vorn_hell() == HIGH || lichtschrank_vorn_dunkel() == HIGH || lichtschrank_hinten_hell() == HIGH || lichtschrank_hinten_dunkel() == HIGH) {
                 Serial.println("Lichtschranke getriggert");
 		return HIGH;
 	}else
@@ -212,7 +212,7 @@ void loop() {
                         Serial.print("zu Schwer Counter: ");
                         Serial.println(schwer);
 			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
-			/*if(lichtschranken() == HIGH) {
+			if(lichtschranken() == HIGH) {
 				//wenn die Lichtschranken was neues sehen, wird der Timer zurück gesetzt
 				start = millis();
 			}//*/
