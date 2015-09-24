@@ -8,8 +8,8 @@ const int WZ = PA_4;
 const int WE = PA_3;
 //Klappe
 const int KS = A8;
-const int KV = PD_6;
-const int KZ = PF_4;
+const int KV = PF_4;
+const int KZ = PD_6;
 const int KE = PD_7;
 //Lichtschranke
 const int LVH = PE_3;
@@ -19,11 +19,11 @@ const int LHD = PD_1;
 //SigTerm
 const int END = PF_2;
 //Schalter
-const int SA = PD_2;
-const int SZ = PD_3;
+const int SA = PE_4;
+const int SZ = PE_5;
 
 //maxima
-const long KM =  13000;
+const long KM =  14000;
 const long WM =  2000;
 const int WC =  5;
 
@@ -52,6 +52,12 @@ void setup() {
 	
 	pinMode(SA, INPUT_PULLUP);
 	pinMode(SZ, INPUT_PULLUP);
+}
+
+void wait(long milsec) {
+  for(long i=0;i<milsec;i++) {
+    delay(1);
+  }
 }
 
 void klappe_auf() {
@@ -121,11 +127,11 @@ int sensor_klappe() {
 }
 
 int schalter_auf() {
-	return digitalRead(SA);
+	return !digitalRead(SA);
 }
 
 int schalter_zu() {
-	return digitalRead(SZ);
+	return !digitalRead(SZ);
 }
 
 void kill_all() {
@@ -160,8 +166,23 @@ int lichtschranken() {
 void loop() {
         Serial.println("Init!!!(12)");
 	klappe_auf();
-        while(!schalter_auf()) {}
+        while(!schalter_auf()) {
+          if(sensor_klappe()) {
+            Serial.println("OK");
+          }else{
+            Serial.println("schwer");
+          }
+          delay(50);
+        }
+        Serial.println("");
+        klappe_stop();
+        wait(2000);
         klappe_zu();
-        while(!schalter_zu()) {}
+        while(!schalter_zu()) {
+          delay(50);
+        }
+        klappe_stop();
+        wait(2000);
+        Serial.println("");
         kill_all();
 }
