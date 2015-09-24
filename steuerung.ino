@@ -28,9 +28,9 @@ const long WM =  2000;
 const int WC =  5;
 
 //timer
-const long WLV = 5000;
-const long WLZ = 5000;
-const long LW = 3000 ;
+const long WLV = 5000; //leerlauf walze vor
+const long WLZ = 5000; //leerlauf walze zurück
+const long LW = 3000 ; //warten bevor klappe zu
 
 void setup() {
 	Serial.begin(9600);
@@ -185,7 +185,7 @@ void loop() {
         long start = 0; //speichert den millisekunden wert für diverse timer
 	int schwer = 0; // zählt wie oft in dem durchgang ein paket zu schwer einzuziehen war
 	int durchgang = HIGH; // speichert on noch ein einzugsdurchgang geplant ist
-        Serial.println("Init!!!(13)");
+        Serial.println("Init!!!(09)");
       // klappe öffnen
 	klappe_auf();
         while(!schalter_auf()) {
@@ -243,7 +243,7 @@ void loop() {
         		}
                 }
 	}
-        wait(2);
+        
         klappe_zu();
         schalter_zu();
         while(!schalter_zu()) {
@@ -251,7 +251,7 @@ void loop() {
         }
         Serial.println("");
         klappe_stop();
-        wait(2);
+
         Serial.println("");
         kill_all();//*/
 }
