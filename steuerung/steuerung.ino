@@ -175,6 +175,7 @@ int lichtschrank_hinten_dunkel() {
 }
 
 int lichtschranken() {
+    Serial.print("Lichtschranken Test: ");
     Serial.print(lichtschrank_vorn_hell());
     Serial.print(" ");
     Serial.print(lichtschrank_vorn_dunkel());
