@@ -128,11 +128,25 @@ int sensor_klappe() {
 }
 
 int schalter_auf() {
-	return !digitalRead(SA);
+	pinMode(SA, INPUT_PULLUP);
+        if(digitalRead(SA)) {
+          Serial.println("Schalter auf nein");
+          return 0;
+        }else{
+          Serial.println("Schalter auf ja");
+          return 1;
+        }
 }
 
 int schalter_zu() {
-	return !digitalRead(SZ);
+	pinMode(SZ, INPUT_PULLUP);
+        if(digitalRead(SZ)) {
+          Serial.println("Schalter zu nein");
+          return 0;
+        }else{
+          Serial.println("Schalter zu ja");
+          return 1;
+        }
 }
 
 void kill_all() {
@@ -182,7 +196,8 @@ void loop() {
         klappe_stop();
         wait(2);
         klappe_zu();
-        while(schalter_zu()) {
+        schalter_zu();
+        while(!schalter_zu()) {
           delay(50);
           Serial.print("I");
         }
@@ -190,5 +205,5 @@ void loop() {
         klappe_stop();
         wait(2);
         Serial.println("");
-        kill_all();
+        kill_all();//*/
 }
