@@ -12,10 +12,10 @@ const int KV = PF_4;
 const int KZ = PD_6;
 const int KE = PD_7;
 //Lichtschranke
-const int LVH = PE_3;
-const int LVD = PD_0;
-const int LHH = PA_6;
-const int LHD = PD_1;
+const int LVH = PA_5;
+const int LVD = PB_0; //
+const int LHH = PE_3;
+const int LHD = PB_1;
 //SigTerm
 const int END = PF_2;
 //Schalter
@@ -182,76 +182,12 @@ int lichtschranken() {
 }
 
 void loop() {
-        long start = 0; //speichert den millisekunden wert für diverse timer
-	int schwer = 0; // zählt wie oft in dem durchgang ein paket zu schwer einzuziehen war
-	int durchgang = HIGH; // speichert on noch ein einzugsdurchgang geplant ist
-        Serial.println("Init!!!(09)");
-      // klappe öffnen
-	klappe_auf();
-        while(!schalter_auf()) {
-          delay(50);
-        }
-        klappe_stop();
-      // ----
-      // Walze vor
-      walze_vor();
-
-	while(durchgang == HIGH) {
-                //hier wird geklärt ob es noch einen durchgang gibt
-		durchgang = LOW; //durchgang löschen
-		start = millis(); // starttimer initiieren
-                Serial.print("Start Var = ");
-                Serial.println(start);
-                Serial.print("lauf bis");
-                Serial.println(start+WLV);
-		while((start+WLV)>millis() && schwer < WC) {
-                        Serial.print("Zeit: ");
-                        Serial.println(millis());
-                        Serial.print("bis: ");
-                        Serial.println(start+WLV);  
-                        Serial.print("zu Schwer Counter: ");
-                        Serial.println(schwer);
-			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
-			/*if(lichtschranken() == HIGH) {
-				//wenn die Lichtschranken was neues sehen, wird der Timer zurück gesetzt
-				start = millis();
-			}//*/
-			
-			/*if(sensor_walze()) {
-				//wenn einzug zu schwer wird ein zu schwer gezählt
-				schwer++;
-				walze_zurueck();
-				while((start+WLZ)>millis()) {
-					//lässt den rückwärtstimer ablaufen und versucht dann wieder vor zu fahren
-					// dann greift der schwercounter oben 
-				}
-				walze_vor();
-			}//*/
-		} 
-		//walz stoppen, solang nicht zu sehen ist
-		walze_stop();
-
-                if(schwer >= WC) {
-                     kill_all();    
-                }else{
-          		start = millis(); // init nachlauf Timer
-        		while((start+LW)>millis() && durchgang == LOW) {
-        			/*if(lichtschranken() == HIGH) {// todo lichtschranke
-        				// wenn lichtschranken was sehen noch einen neuen durchlauf
-        				durchgang = HIGH;
-        			}//*/
-        		}
-                }
-	}
-        
-        klappe_zu();
-        schalter_zu();
-        while(!schalter_zu()) {
-          delay(50);
-        }
-        Serial.println("");
-        klappe_stop();
-
-        Serial.println("");
-        kill_all();//*/
+  
+  Serial.print(lichtschrank_vorn_hell());
+  Serial.print(" ");
+  Serial.print(lichtschrank_vorn_dunkel());
+  Serial.print(" ");
+  Serial.print(lichtschrank_hinten_hell());
+  Serial.print(" ");
+  Serial.println(lichtschrank_hinten_dunkel());
 }
