@@ -12,10 +12,10 @@ const int KV = PF_4;
 const int KZ = PD_6;
 const int KE = PD_7;
 //Lichtschranke
-const int LVH = PE_3;
-const int LVD = PD_0;
-const int LHH = PA_6;
-const int LHD = PD_1;
+const int LVH = PA_5;
+const int LVD = PB_0; //
+const int LHH = PE_3;
+const int LHD = PB_1;
 //SigTerm
 const int END = PF_2;
 //Schalter
