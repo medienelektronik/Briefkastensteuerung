@@ -1,0 +1,234 @@
+Init!!!(09)
+klappe auf
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf nein
+Schalter auf ja
+klappe stop
+walze_vor
+Start Var = 48108
+lauf bis53108
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 3609 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2690 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2316 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2180 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2207 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2371 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1953 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1869 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1525 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1335 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1225 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1159 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1295 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1481 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1705 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1740 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2015 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2320 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2311 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2209 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2015 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1734 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1429 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1289 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1220 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1153 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1337 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1404 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1753 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1821 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2009 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2087 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2341 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 2037 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1942 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1631 0
+Lichtschranken Test: 0 0 0 0
+Sensor Walze: 1510 0
+walze_stop
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+Lichtschranken Test: 0 0 0 0
+klappe zu
+Schalter zu nein
+Schalter zu nein
+Sensor Klappe: 7580
+Schalter zu nein
+Sensor Klappe: 3100
+Schalter zu nein
+Sensor Klappe: 3550
+Schalter zu nein
+Sensor Klappe: 3820
+Schalter zu nein
+Sensor Klappe: 3900
+Schalter zu nein
+Sensor Klappe: 4000
+Schalter zu nein
+Sensor Klappe: 3930
+Schalter zu nein
+Sensor Klappe: 3730
+Schalter zu nein
+Sensor Klappe: 3840
+Schalter zu nein
+Sensor Klappe: 3560
+Schalter zu nein
+Sensor Klappe: 4150
+Schalter zu ja
+klappe stop
+Kill em All!!!

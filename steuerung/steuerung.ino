@@ -182,19 +182,19 @@ void kill_all() {
 }
 
 int lichtschrank_vorn_hell() {
-		return !digitalRead(LVH);
+		return digitalRead(LVH);
 }
 
 int lichtschrank_vorn_dunkel() {
-		return !digitalRead(LVD);
+		return digitalRead(LVD);
 }
 
 int lichtschrank_hinten_hell() {
-		return !digitalRead(LHH);
+		return digitalRead(LHH);
 }
 
 int lichtschrank_hinten_dunkel() {
-		return !digitalRead(LHD);
+		return digitalRead(LHD);
 }
 
 int lichtschranken() {
