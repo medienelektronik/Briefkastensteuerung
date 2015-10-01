@@ -282,13 +282,14 @@ void loop() {
 	}
         
         klappe_zu();
+        delay(100);
         schalter_zu();
         while(!schalter_zu() && durchgang == LOW) {
-          delay(100);
-          if(sensor_klappe()) {
+          if(sensor_klappe() && !schalter_zu()) {
             durchgang = HIGH;
             klappschwer++;
           }
+          delay(100);
           
           //if(lichtschranken()) {
           //  durchgang = HIGH;
