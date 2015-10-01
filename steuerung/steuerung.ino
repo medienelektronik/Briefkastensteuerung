@@ -202,7 +202,7 @@ void loop() {
         klappe_stop();
       // ----
       // Walze vor
-      walze_vor();
+        walze_vor();
 
 	while(durchgang == HIGH) {
                 //hier wird geklärt ob es noch einen durchgang gibt
@@ -250,13 +250,15 @@ void loop() {
         
         klappe_zu();
         schalter_zu();
-        while(!schalter_zu()) {
+        while(!schalter_zu() && durchgang == LOW) {
           delay(50);
-          //TODO schalter
+          if(sensor_klappe()) {
+            durchgang = HIGH;
+          }
         }
-        Serial.println("");
         klappe_stop();
 
-        Serial.println("");
-        kill_all();//*/
+        if(durchgang == LOW) {
+          kill_all();//*/
+        }
 }
