@@ -29,7 +29,7 @@ const int AL2 = PB_3;
 
 //maxima
 const long KM =  1500;
-const long WM =  3500;
+const long WM =  4000;
 const int WC =  5;
 const int KC =  2;
 
