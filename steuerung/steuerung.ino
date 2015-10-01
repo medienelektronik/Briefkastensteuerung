@@ -236,7 +236,7 @@ void loop() {
       // ----
       // Walze vor
         walze_vor();
-        delay(200)
+        delay(200);
 	while(durchgang == HIGH) {
                 //hier wird geklärt ob es noch einen durchgang gibt
 		durchgang = LOW; //durchgang löschen
@@ -284,15 +284,15 @@ void loop() {
         klappe_zu();
         schalter_zu();
         while(!schalter_zu() && durchgang == LOW) {
-          delay(50);
+          delay(100);
           if(sensor_klappe()) {
             durchgang = HIGH;
             klappschwer++;
           }
           
-          if(lichtschranken()) {
-            durchgang = HIGH;
-          }
+          //if(lichtschranken()) {
+          //  durchgang = HIGH;
+          //}
         }
         klappe_stop();
         }else{
