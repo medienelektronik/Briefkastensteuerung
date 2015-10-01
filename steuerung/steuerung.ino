@@ -76,9 +76,9 @@ void alarm(int error) {
 // 6 
 // 7 
 	int alarm0 = error/4;
-	error = error-(alarm0*4)
+	error = error-(alarm0*4);
 	int alarm1 = error/2;
-	int alarm2 = error-(alarm1*2)
+	int alarm2 = error-(alarm1*2);
 	digitalWrite(AL0, alarm0);
 	digitalWrite(AL1, alarm1);
 	digitalWrite(AL2, alarm2);
