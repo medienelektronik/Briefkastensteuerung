@@ -22,6 +22,11 @@ const int END = PF_2;
 const int SA = PE_4;
 const int SZ = PE_5;
 
+//report code
+const int AL0 = PF_3;
+const int AL1 = PB_2;
+const int AL2 = PB_3;
+
 //maxima
 const long KM =  3500;
 const long WM =  4000;
@@ -59,6 +64,24 @@ void wait(long secs) {
     delay(1000);
   }
   Serial.println(secs);
+}
+
+void alarm(int error) {
+// 0 ALLES OK
+// 1 
+// 2 
+// 3 
+// 4 
+// 5 
+// 6 
+// 7 
+	int alarm0 = error/4;
+	error = error-(alarm0*4)
+	int alarm1 = error/2;
+	int alarm2 = error-(alarm1*2)
+	digitalWrite(AL0, alarm0);
+	digitalWrite(AL1, alarm1);
+	digitalWrite(AL2, alarm2);
 }
 
 void klappe_auf() {
