@@ -28,14 +28,18 @@ const int AL1 = PB_2;
 const int AL2 = PB_3;
 
 //maxima
-const long KM =  3500;
-const long WM =  4000;
+const long KM =  1500;
+const long WM =  3500;
 const int WC =  5;
+const int KC =  2;
 
 //timer
-const long WLV = 5000; //leerlauf walze vor
+const long WLV = 1000; //leerlauf walze vor
 const long WLZ = 5000; //leerlauf walze zurück
-const long LW = 3000 ; //warten bevor klappe zu
+const long LW = 7000 ; //warten bevor klappe zu
+
+//rest
+int klappschwer =0;
 
 void setup() {
 	Serial.begin(9600);
@@ -47,6 +51,9 @@ void setup() {
 	pinMode(KZ, OUTPUT);
 	pinMode(KE, OUTPUT);
 	pinMode(END,OUTPUT); 
+	pinMode(AL0,OUTPUT);
+	pinMode(AL1,OUTPUT);
+	pinMode(AL2,OUTPUT); 
 	
 	pinMode(WS, INPUT);
 	pinMode(KS, INPUT);
@@ -68,7 +75,7 @@ void wait(long secs) {
 
 void alarm(int error) {
 // 0 ALLES OK
-// 1 
+// 1 walze zu schwer
 // 2 
 // 3 
 // 4 
@@ -173,9 +180,10 @@ int schalter_zu() {
         }
 }
 
-void kill_all() {
+void kill_all(int al=0) {
 	Serial.println("Kill em All!!!");
 	digitalWrite(END, HIGH);
+        alarm(al);
         while(true) {
           delay(250);
         }
@@ -216,8 +224,10 @@ void loop() {
         long start = 0; //speichert den millisekunden wert für diverse timer
 	int schwer = 0; // zählt wie oft in dem durchgang ein paket zu schwer einzuziehen war
 	int durchgang = HIGH; // speichert on noch ein einzugsdurchgang geplant ist
-        Serial.println("Init!!!(09)");
+        
+        Serial.println("Init!!!(2.0)");
       // klappe öffnen
+        if(klappschwer < KC) {
 	klappe_auf();
         while(!schalter_auf()) {
           delay(50);
@@ -226,7 +236,7 @@ void loop() {
       // ----
       // Walze vor
         walze_vor();
-
+        delay(200)
 	while(durchgang == HIGH) {
                 //hier wird geklärt ob es noch einen durchgang gibt
 		durchgang = LOW; //durchgang löschen
@@ -258,7 +268,7 @@ void loop() {
 		walze_stop();
 
                 if(schwer >= WC) {
-                     kill_all();    
+                     kill_all(1);    
                 }else{
           		start = millis(); // init nachlauf Timer
         		while((start+LW)>millis() && durchgang == LOW) {
@@ -277,11 +287,19 @@ void loop() {
           delay(50);
           if(sensor_klappe()) {
             durchgang = HIGH;
+            klappschwer++;
+          }
+          
+          if(lichtschranken()) {
+            durchgang = HIGH;
           }
         }
         klappe_stop();
+        }else{
+          kill_all(2);
+        }
 
         if(durchgang == LOW) {
-          kill_all();//*/
+          kill_all(0);
         }
 }
