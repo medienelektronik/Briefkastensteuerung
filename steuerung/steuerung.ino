@@ -29,7 +29,7 @@ const int AL2 = PB_3;
 
 //maxima
 const long KM =  1500;
-const long WM =  4000;
+const long WM =  3000;
 const int WC =  5;
 const int KC =  2;
 
@@ -37,9 +37,14 @@ const int KC =  2;
 const long WLV = 1000; //leerlauf walze vor
 const long WLZ = 5000; //leerlauf walze zurück
 const long LW = 7000 ; //warten bevor klappe zu
+const long MLL = 5000; //maximale schranke zwischen zwei aulösungen
 
 //rest
 int klappschwer =0;
+long LLVH = 0;
+long LLVD = 0;
+long LLHH = 0;
+long LLHD = 0;
 
 void setup() {
 	Serial.begin(9600);
@@ -190,6 +195,7 @@ void kill_all(int al=0) {
 }
 
 int lichtschrank_vorn_hell() {
+    //TODO irgendwie hier und bei den anderen lw funcs dass negative flanken den timer auf 0 setzen und nur timer nicht abgelaufen und pos wert ein high liefern
 		return digitalRead(LVH);
 }
 
