@@ -28,8 +28,13 @@ const int AL1 = PB_2;
 const int AL2 = PB_3;
 
 //maxima
+<<<<<<< HEAD
 const long KM =  4000;
 const long WM =  3300;
+=======
+const long KM =  1500;
+const long WM =  3000;
+>>>>>>> parent of 87ecc73... Sense nachgebessert delay verlängert
 const int WC =  5;
 const int KC =  2;
 
@@ -242,6 +247,7 @@ void loop() {
       // ----
       // Walze vor
         walze_vor();
+        delay(200);
 	while(durchgang == HIGH) {
                 //hier wird geklärt ob es noch einen durchgang gibt
 		durchgang = LOW; //durchgang löschen
@@ -250,7 +256,6 @@ void loop() {
                 Serial.println(start);
                 Serial.print("lauf bis");
                 Serial.println(start+WLV);
-                delay(500);
 		while((start+WLV)>millis() && schwer < WC) {
 			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
 			if(lichtschranken() == HIGH) {
