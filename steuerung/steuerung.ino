@@ -28,8 +28,8 @@ const int AL1 = PB_2;
 const int AL2 = PB_3;
 
 //maxima
-const long KM =  1500;
-const long WM =  3000;
+const long KM =  3000;
+const long WM =  4000;
 
 const int WC =  5;
 const int KC =  2;
@@ -232,7 +232,7 @@ void loop() {
 	int schwer = 0; // zählt wie oft in dem durchgang ein paket zu schwer einzuziehen war
 	int durchgang = HIGH; // speichert on noch ein einzugsdurchgang geplant ist
         
-        Serial.println("Init!!!(2.2)");
+        Serial.println("Init!!!(2.5)");
       // klappe öffnen
         if(klappschwer < KC) {
 	klappe_auf();
@@ -243,7 +243,7 @@ void loop() {
       // ----
       // Walze vor
         walze_vor();
-        delay(200);
+        delay(250);
 	while(durchgang == HIGH) {
                 //hier wird geklärt ob es noch einen durchgang gibt
 		durchgang = LOW; //durchgang löschen
