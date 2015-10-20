@@ -28,18 +28,9 @@ const int AL1 = PB_2;
 const int AL2 = PB_3;
 
 //maxima
-<<<<<<< HEAD
-<<<<<<< HEAD
-const long KM =  4000;
-const long WM =  3300;
-=======
 const long KM =  1500;
 const long WM =  3000;
->>>>>>> parent of 87ecc73... Sense nachgebessert delay verlängert
-=======
-const long KM =  1500;
-const long WM =  3000;
->>>>>>> parent of 87ecc73... Sense nachgebessert delay verlängert
+
 const int WC =  5;
 const int KC =  2;
 
@@ -241,7 +232,7 @@ void loop() {
 	int schwer = 0; // zählt wie oft in dem durchgang ein paket zu schwer einzuziehen war
 	int durchgang = HIGH; // speichert on noch ein einzugsdurchgang geplant ist
         
-        Serial.println("Init!!!(2.1)");
+        Serial.println("Init!!!(2.2)");
       // klappe öffnen
         if(klappschwer < KC) {
 	klappe_auf();
@@ -298,7 +289,7 @@ void loop() {
 	}
         
         klappe_zu();
-        delay(100);
+        delay(250);
         while(!schalter_zu() && durchgang == LOW) {
           if(sensor_klappe() && !schalter_zu()) {
             durchgang = HIGH;
