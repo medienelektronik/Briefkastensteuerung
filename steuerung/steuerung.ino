@@ -29,8 +29,13 @@ const int AL2 = PB_3;
 
 //maxima
 <<<<<<< HEAD
+<<<<<<< HEAD
 const long KM =  4000;
 const long WM =  3300;
+=======
+const long KM =  1500;
+const long WM =  3000;
+>>>>>>> parent of 87ecc73... Sense nachgebessert delay verlängert
 =======
 const long KM =  1500;
 const long WM =  3000;
