@@ -17,15 +17,15 @@ const int LVD = PB_0; //
 const int LHH = PE_3;
 const int LHD = PB_1;
 //SigTerm
-const int END = PF_2;
+const int END = PF_0;
 //Schalter
 const int SA = PE_4;
 const int SZ = PE_5;
 
 //report code
-const int AL0 = PF_3;
-const int AL1 = PB_2;
-const int AL2 = PB_3;
+const int AL0 = PF_1;
+const int AL1 = PF_2;
+const int AL2 = PF_3;
 
 //maxima
 const long KM =  3000;
