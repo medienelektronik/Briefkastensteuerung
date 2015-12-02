@@ -80,14 +80,15 @@ void wait(long secs) {
 }
 
 void alarm(int error) {
-// 0 ALLES OK
-// 1 walze zu schwer
-// 2 
-// 3 
-// 4 
-// 5 
-// 6 
-// 7 
+// 0 000 aus	ALLES OK
+// 1 001 rot	walze zu schwer
+// 2 010 blau	
+// 3 011 lila	
+// 4 100 gruen	
+// 5 101 orange	
+// 6 110 gelb	
+// 7 111 weiss	
+
 	int alarm0 = error/4;
 	error = error-(alarm0*4);
 	int alarm1 = error/2;
