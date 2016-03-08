@@ -19,9 +19,8 @@ const int LHD = PD_1;
 //SigTerm
 const int END = PF_2;
 //Schalter
-const int SA = PD_2;
-const int SZ = PD_3;
-
+const int SA = PE_4;
+const int SZ = PE_5;
 //maxima
 const long KM =  13000;
 const long WM =  2000;
