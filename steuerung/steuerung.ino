@@ -1,5 +1,5 @@
-//BK-Steuerung-v1
-//S Titz
+//BK-Steuerung-v3
+//S Titz 2016-03-08
 
 //Walze
 const int WS = A5;	//Walze Sense
@@ -80,14 +80,14 @@ void wait(long secs) {
 }
 
 void alarm(int error) {
-// 0 000 aus	ALLES OK
-// 1 001 rot	walze zu schwer
-// 2 010 blau	
-// 3 011 lila	
-// 4 100 gruen	
-// 5 101 orange	
-// 6 110 gelb	
-// 7 111 weiss	
+        // 0 000 aus	ALLES OK
+        // 1 001 rot	walze zu schwer
+        // 2 010 blau	hängt im Ende schaltet nicht ab
+        // 3 011 lila	
+        // 4 100 gruen	
+        // 5 101 orange	
+        // 6 110 gelb	
+        // 7 111 weiss	
 
 	int alarm0 = error/4;
 	error = error-(alarm0*4);
@@ -187,7 +187,7 @@ int schalter_zu() {
         }
 }
 
-void kill_all(int al=0) {
+void kill_all(int al=2) {
 	Serial.println("Kill em All!!!");
 	digitalWrite(END, HIGH);
         alarm(al);
@@ -198,19 +198,35 @@ void kill_all(int al=0) {
 
 int lichtschrank_vorn_hell() {
     //TODO irgendwie hier und bei den anderen lw funcs dass negative flanken den timer auf 0 setzen und nur timer nicht abgelaufen und pos wert ein high liefern
-		return digitalRead(LVH);
+    int t = digitalRead(LVH);
+    if (t == LLVH)
+        return false;
+    LLVH = t;
+    return true;
 }
 
 int lichtschrank_vorn_dunkel() {
-		return digitalRead(LVD);
+    int t = digitalRead(LVD);
+    if (t == LLVD)
+        return false;
+    LLVD = t;
+    return true;
 }
 
 int lichtschrank_hinten_hell() {
-		return digitalRead(LHH);
+    int t = digitalRead(LHH);
+    if (t == LLHH)
+        return false;
+    LLHH = t;
+    return true;
 }
 
 int lichtschrank_hinten_dunkel() {
-		return digitalRead(LHD);
+    int t = digitalRead(LHD);
+    if (t == LLHD)
+        return false;
+    LLHD = t;
+    return true;
 }
 
 int lichtschranken() {
@@ -232,8 +248,9 @@ void loop() {
         long start = 0; //speichert den millisekunden wert für diverse timer
 	int schwer = 0; // zählt wie oft in dem durchgang ein paket zu schwer einzuziehen war
 	int durchgang = HIGH; // speichert on noch ein einzugsdurchgang geplant ist
+        digitalWrite(END,0);
         
-        Serial.println("Init!!!(2.5)");
+        Serial.println("Init!!!(3.0 stable)");
       // klappe öffnen
         if(klappschwer < KC) {
 	klappe_auf();
