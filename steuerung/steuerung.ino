@@ -231,14 +231,18 @@ int lichtschrank_hinten_dunkel() {
 
 int lichtschranken() {
     Serial.print("Lichtschranken Test: ");
-    Serial.print(lichtschrank_vorn_hell());
+    lvh = lichtschrank_vorn_hell();
+    Serial.print(lvh);
     Serial.print(" ");
-    Serial.print(lichtschrank_vorn_dunkel());
+    lvd = lichtschrank_vorn_dunkel();
+    Serial.print(lvd);
     Serial.print(" ");
-    Serial.print(lichtschrank_hinten_hell());
+    lhh = lichtschrank_hinten_hell();
+    Serial.print(lhh);
     Serial.print(" ");
-    Serial.println(lichtschrank_hinten_dunkel());
-	if(lichtschrank_vorn_hell() == HIGH || lichtschrank_vorn_dunkel() == HIGH || lichtschrank_hinten_hell() == HIGH || lichtschrank_hinten_dunkel() == HIGH) {
+    lhd = lichtschrank_hinten_dunkel();
+    Serial.println(lhd);
+	if(lvh == HIGH || lvd == HIGH || lhh == HIGH || lhd == HIGH) {
 		return HIGH;
 	}else
 		return LOW;
