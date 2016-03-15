@@ -162,7 +162,7 @@ int lichtschrank_vorn_hell() {
 }
 
 int lichtschrank_vorn_dunkel() {
-		return digitalRead(LVD);
+		return !digitalRead(LVD);
 }
 
 int lichtschrank_hinten_hell() {
