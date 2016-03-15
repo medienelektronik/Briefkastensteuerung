@@ -197,7 +197,6 @@ void kill_all(int al=2) {
 }
 
 int lichtschrank_vorn_hell() {
-    //TODO irgendwie hier und bei den anderen lw funcs dass negative flanken den timer auf 0 setzen und nur timer nicht abgelaufen und pos wert ein high liefern
     int t = digitalRead(LVH);
     if (t == LLVH)
         return false;
@@ -231,17 +230,22 @@ int lichtschrank_hinten_dunkel() {
 
 int lichtschranken() {
     Serial.print("Lichtschranken Test: ");
-    Serial.print(lichtschrank_vorn_hell());
+    int lsvh = lichtschrank_vorn_hell();
+    int lsvd = lichtschrank_vorn_dunkel();
+    int lshh = lichtschrank_hinten_hell();
+    int lshd = lichtschrank_hinten_dunkel();
+    Serial.print(lsvh);
     Serial.print(" ");
-    Serial.print(lichtschrank_vorn_dunkel());
+    Serial.print(lsvd);
     Serial.print(" ");
-    Serial.print(lichtschrank_hinten_hell());
+    Serial.print(lshh);
     Serial.print(" ");
-    Serial.println(lichtschrank_hinten_dunkel());
-	if(lichtschrank_vorn_hell() == HIGH || lichtschrank_vorn_dunkel() == HIGH || lichtschrank_hinten_hell() == HIGH || lichtschrank_hinten_dunkel() == HIGH) {
-		return HIGH;
-	}else
-		return LOW;
+    Serial.println(lshd);
+    if(lsvh == HIGH || lsvd == HIGH || lshh == HIGH || lshd == HIGH) {
+        return HIGH;
+    }else {
+        return LOW;
+    }
 }
 
 void loop() {
