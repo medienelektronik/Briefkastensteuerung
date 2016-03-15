@@ -1,4 +1,4 @@
-//BK-Steuerung-v3
+//BK-Steuerung-v4
 //S Titz 2016-03-08
 
 //Walze
@@ -13,9 +13,9 @@ const int KZ = PD_6;
 const int KE = PD_7;
 //Lichtschranke
 const int LVH = PA_5;
-const int LVD = PB_0; //
+const int LVD = PD_0; //
 const int LHH = PE_3;
-const int LHD = PB_1;
+const int LHD = PD_1;
 //SigTerm
 const int END = PF_0;
 //Schalter
