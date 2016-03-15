@@ -29,7 +29,7 @@ const int AL2 = PF_3;
 
 //maxima
 const long KM =  3000;
-const long WM =  3500;
+const long WM =  3700;
 
 const int WC =  5;
 const int KC =  2;
@@ -265,7 +265,7 @@ void loop() {
       // ----
       // Walze vor
         walze_vor();
-        delay(500);
+        delay(250);
 	while(durchgang == HIGH) {
                 //hier wird geklärt ob es noch einen durchgang gibt
 		durchgang = LOW; //durchgang löschen
@@ -278,6 +278,7 @@ void loop() {
 			// solang der timer noch nicht abgelaufen ist und der zu schwer counter nicht bis maximum gelaufen ist
 			if(lichtschranken() == HIGH) {
 				//wenn die Lichtschranken was neues sehen, wird der Timer zurück gesetzt
+                                delay(250);
 				start = millis();
 			}//*/
 			
