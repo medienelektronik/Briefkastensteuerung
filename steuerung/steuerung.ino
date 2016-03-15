@@ -29,7 +29,7 @@ const int AL2 = PF_3;
 
 //maxima
 const long KM =  3000;
-const long WM =  3700;
+const long WM =  2000;
 
 const int WC =  5;
 const int KC =  2;
@@ -254,7 +254,7 @@ void loop() {
 	int durchgang = HIGH; // speichert on noch ein einzugsdurchgang geplant ist
         digitalWrite(END,0);
         
-        Serial.println("Init!!!(3.0 stable)");
+        Serial.println("Init!!!(4.0 stable)");
       // klappe öffnen
         if(klappschwer < KC) {
 	klappe_auf();
@@ -283,15 +283,18 @@ void loop() {
 			}//*/
 			
 			if(sensor_walze()) {
-                                Serial.println("Zu schwer");
-				//wenn einzug zu schwer wird ein zu schwer gezählt
-				schwer++;
-				walze_zurueck();
-				while((start+WLZ)>millis()) {
+                                delay(250);
+                                if(sensor_walze()) {
+                                    Serial.println("Zu schwer");
+                			//wenn einzug zu schwer wird ein zu schwer gezählt
+		    		    schwer++;
+				    walze_zurueck();
+				    while((start+WLZ)>millis()) {
 					//lässt den rückwärtstimer ablaufen und versucht dann wieder vor zu fahren
 					// dann greift der schwercounter oben 
-				}
-				walze_vor();
+				    }  
+				    walze_vor();
+                                }
 			}//*/
 		} 
 		//walz stoppen, solang nicht zu sehen ist
