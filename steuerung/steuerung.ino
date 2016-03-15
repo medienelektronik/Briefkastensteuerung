@@ -29,7 +29,7 @@ const int AL2 = PF_3;
 
 //maxima
 const long KM =  3000;
-const long WM =  4000;
+const long WM =  3500;
 
 const int WC =  5;
 const int KC =  2;
@@ -42,10 +42,10 @@ const long MLL = 5000; //maximale schranke zwischen zwei aulösungen
 
 //rest
 int klappschwer =0;
-long LLVH = 0;
-long LLVD = 0;
-long LLHH = 0;
-long LLHD = 0;
+long LLVH = 1;
+long LLVD = 1;
+long LLHH = 1;
+long LLHD = 1;
 
 void setup() {
 	Serial.begin(9600);
@@ -265,7 +265,7 @@ void loop() {
       // ----
       // Walze vor
         walze_vor();
-        delay(250);
+        delay(500);
 	while(durchgang == HIGH) {
                 //hier wird geklärt ob es noch einen durchgang gibt
 		durchgang = LOW; //durchgang löschen
