@@ -3,9 +3,9 @@
 
 //Walze
 const int WS = A5;	//Walze Sense
-const int WZ = PA_2;	//Walze Vor
-const int WV = PA_4;
-const int WE = PA_3;
+const int WZ = PA_2;	//Walze Zurück
+const int WV = PA_4;    //Walze Vor
+const int WE = PA_3;    //Walze Enable
 //Klappe
 const int KS = A4;
 const int KV = PF_4;
@@ -28,18 +28,17 @@ const int AL1 = PF_2;
 const int AL2 = PF_3;
 
 //maxima
-const long KM =  3000;
-const long WM =  2000;
+const long KM =  3850;    //Stromaufnahme Klappe
+const long WM =  3000;    //Stromaufnahme Walze
 
-const int WC =  5;
-const int KC =  2;
+const int WC =  4;        //Walze wiederholungen
+const int KC =  2;        //Klappe wiederholungen
 
 //timer
 const long WLV = 1000; //leerlauf walze vor
 const long WLZ = 5000; //leerlauf walze zurück
 const long LW = 7000 ; //warten bevor klappe zu
-const long MLL = 5000; //maximale schranke zwischen zwei aulösungen
-
+//------------------------------------------------------------------
 //rest
 int klappschwer =0;
 long LLVH = 1;
@@ -165,8 +164,7 @@ int sensor_klappe() {
 	return (ret/10) > KM;
 }
 
-int schalter_auf() {
-	pinMode(SA, INPUT_PULLUP);
+int schalter_auf() { //Schalter SA =H  SZ=L ändern mit ! Zeichen	pinMode(SA, INPUT_PULLUP);
         if(digitalRead(SA)) {
           Serial.println("Schalter auf nein");
           return 0;
@@ -180,7 +178,7 @@ int schalter_zu() {
 	pinMode(SZ, INPUT_PULLUP);
         if(digitalRead(SZ)) {
           Serial.println("Schalter zu nein");
-          return 0;
+          return 0;//Schalter ZU=H  ZU=L ändern mit ! Zeichen
         }else{
           Serial.println("Schalter zu ja");
           return 1;
