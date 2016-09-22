@@ -35,7 +35,7 @@ const int WC =  4;        //Walze wiederholungen
 const int KC =  4;        //Klappe wiederholungen
 
 //timer
-const long WLV = 3000; //leerlauf walze vor
+const long WLV = 3500; //leerlauf walze vor
 const long WLZ = 5000; //leerlauf walze zurück
 const long LW = 7000 ; //warten bevor klappe zu
 //------------------------------------------------------------------
