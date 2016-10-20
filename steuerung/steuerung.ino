@@ -28,7 +28,7 @@ const int AL1 = PF_2;
 const int AL2 = PF_3;
 
 //maxima
-const long KM =  3051;    //Stromaufnahme Klappe
+const long KM =  3052;    //Stromaufnahme Klappe
 const long WM =  2000;    //Stromaufnahme Walze
 
 const int WC =  4;        //Walze wiederholungen
