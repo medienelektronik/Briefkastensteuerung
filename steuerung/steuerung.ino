@@ -165,7 +165,7 @@ int sensor_klappe() {
 }
 
 int schalter_auf() { //Schalter SA =H  SZ=L ändern mit ! Zeichen	pinMode(SA, INPUT_PULLUP);
-        if(!digitalRead(SA)) {
+        if(digitalRead(SA)) {
           Serial.println("Schalter auf nein");
           return 0;
         }else{
@@ -176,7 +176,7 @@ int schalter_auf() { //Schalter SA =H  SZ=L ändern mit ! Zeichen	pinMode(SA, IN
 
 int schalter_zu() {
 	pinMode(SZ, INPUT_PULLUP);
-        if(!digitalRead(SZ)) {
+        if(digitalRead(SZ)) {
           Serial.println("Schalter zu nein");
           return 0;//Schalter ZU=H  ZU=L ändern mit ! Zeichen
         }else{
