@@ -1,4 +1,4 @@
-//BK-Steuerung-v4
+//BK-Steuerung-v5 endsch
 //S Titz 2016-03-08
 
 //Walze
@@ -252,7 +252,7 @@ void loop() {
 	int durchgang = HIGH; // speichert on noch ein einzugsdurchgang geplant ist
         digitalWrite(END,0);
         
-        Serial.println("Init!!!(4.0 stable)");
+        Serial.println("Init!!!(5.0 stable entschalter)");
       // klappe öffnen
         if(klappschwer < KC) {
 	klappe_auf();
