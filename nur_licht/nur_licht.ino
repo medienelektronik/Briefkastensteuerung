@@ -45,10 +45,10 @@ void setup() {
 	
 	pinMode(WS, INPUT);
 	pinMode(KS, INPUT);
-	pinMode(LVH,INPUT);
-	pinMode(LVD,INPUT);
-	pinMode(LHH,INPUT);
-	pinMode(LHD,INPUT);
+	pinMode(LVH,INPUT_PULLUP);
+	pinMode(LVD,INPUT_PULLUP);
+	pinMode(LHH,INPUT_PULLUP);
+	pinMode(LHD,INPUT_PULLUP);
 	
 	pinMode(SA, INPUT_PULLUP);
 	pinMode(SZ, INPUT_PULLUP);
@@ -158,19 +158,19 @@ void kill_all() {
 }
 
 int lichtschrank_vorn_hell() {
-		return !digitalRead(LVH);
+		return digitalRead(LVH);
 }
 
 int lichtschrank_vorn_dunkel() {
-		return !digitalRead(LVD);
+		return digitalRead(LVD);
 }
 
 int lichtschrank_hinten_hell() {
-		return !digitalRead(LHH);
+		return digitalRead(LHH);
 }
 
 int lichtschrank_hinten_dunkel() {
-		return !digitalRead(LHD);
+		return digitalRead(LHD);
 }
 
 int lichtschranken() {
